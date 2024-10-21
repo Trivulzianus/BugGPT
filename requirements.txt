@@ -1,7 +1,2 @@
 openai
 Flask
-sqlite3
-os
-re
-random
-importlib.util
