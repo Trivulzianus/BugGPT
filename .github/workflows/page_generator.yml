@@ -2,7 +2,7 @@ name: Run page_generator.py
 
 on:
   schedule:
-    -cron: "0 * * * *"  # Every hour
+    - cron: "0 * * * *"  # Every hour
   workflow_dispatch:  # Allows manual run
   
 permissions:
