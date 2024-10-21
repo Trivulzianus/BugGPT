@@ -23,5 +23,22 @@ jobs:
 
       - name: Run page_generator.py
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}  # Make sure the key is passed here
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: python page_generator.py
+
+      - name: Configure git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Add changes to git
+        run: git add .
+
+      - name: Commit changes
+        run: git commit -m "Add new room"
+
+      - name: Push changes
+        run: git push
+        env:
+          # Ensure the repository token is used for authentication
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
