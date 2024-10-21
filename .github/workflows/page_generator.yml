@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: "0 */8 * * *"  # Every 8 hours
   workflow_dispatch:  # Allows manual run
+  
+permissions:
+  contents: write  # Grant write permission to push changes
 
 jobs:
   run-script:
