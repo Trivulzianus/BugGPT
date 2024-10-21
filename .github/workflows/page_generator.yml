@@ -41,4 +41,4 @@ jobs:
         run: git push
         env:
           # Ensure the repository token is used for authentication
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.THIS_SITE_SECRET }}
