@@ -5,9 +5,7 @@ from random import randrange
 from anthropic import Anthropic
 import os
 
-# Initialize the client with your API key
 anthropic = Anthropic(
-    # Store your API key as an environment variable
     api_key='NICE TRY GETTING MY KEY :)'
 )
 
