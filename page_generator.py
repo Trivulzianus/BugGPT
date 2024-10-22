@@ -46,7 +46,7 @@ openai_response = openai.chat.completions.create(
 
 # Parse the generated vulnerable content
 openai_content = openai_response.choices[0].message.content
-openai_parsed_content = openai_content[10:-4]
+openai_parsed_content = openai_content[openai_content.find('from flask'):openai_content.find('if __name__ == ')+50]
 
 # Request to generate the explanation and mitigation for the vulnerability
 openai_fix = openai.chat.completions.create(
@@ -90,7 +90,7 @@ def create_room_folder(room_number):
     # Save the vulnerable web app script
     vuln_file_path = os.path.join(folder_name, "vulnerable_app.py")
     with open(vuln_file_path, 'w', encoding='utf-8') as f:
-        f.write(openai_parsed_content)
+        f.write(openai_parsed_content[:-1] + ')')
 
     # Save the explanation and mitigation in a markdown file
     explanation_file_path = os.path.join(folder_name, "explanation_and_mitigation.md")
