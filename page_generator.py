@@ -77,13 +77,14 @@ openai_fix_content = openai_fix.choices[0].message.content
 # Print the solution and mitigation
 print(openai_fix_content)
 
-# Function to run the Flask app
-def run_flask_app():
-    exec(openai_parsed_content, globals())
+# Use Regex to extract room name
+title_match = re.search(r'<title>(.*?)<\/title>', openai_parsed_content, re.IGNORECASE)
+if title_match:
+    room_name = title_match.group(1)
 
 # Create a folder for each room and save the files
 def create_room_folder(room_number):
-    folder_name = f"Room_{room_number}"
+    folder_name = f"Room_{room_number}_{room_name}"
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
 
