@@ -1,6 +1,6 @@
 # BugGPT
 
-**BugGPT** is an open-source project that automatically generates vulnerable web applications for security practitioners to practice and enhance their web security skills. This project leverages OpenAI's GPT models to create random, engaging, and complex web pages containing various vulnerabilities, providing a challenge for those looking to test their hacking skills.
+**BugGPT** is an open-source project that automatically generates vulnerable web applications for security practitioners to practice and enhance their web security skills. This project leverages OpenAI's GPT models to create random, engaging, and complex web pages containing various vulnerabilities, providing a challenge for those looking to test their hacking skills. Each 'room' contains the vulnerable web page, and docs explaining the exploit and best practices for developers to mitigate this risk.
 
 ## Key Features
 
