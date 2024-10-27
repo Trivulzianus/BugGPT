@@ -1,3 +1,4 @@
+from openai import OpenAI
 import openai
 import sqlite3
 import os
@@ -18,57 +19,39 @@ print(f"Chosen Vulnerability: {vuln}")
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+client = OpenAI(api_key=openai.api_key)
 # Request to generate the vulnerable web app
-openai_response = openai.chat.completions.create(
-    model="gpt-4o",
+openai_response = client.chat.completions.create(
+    model="o1-preview",
     messages=[
         {
-            "role": "system",
-            "content": "You are a cybersecurity engineer genius by day and artist by night. You have partnered"
-                       "up with me on a project to create vulnerable web pages for security practitioners to "
-                       "work against and test their knowledge. You create intricate puzzles which test the human brain."
-                       "Your output is a python script which contains"
-                       "all the necessary imports and function to initiate a flask app"
-        },
-        {
             "role": "user",
-            "content": f"Create an engaging, difficult, and highly complex single web page for people to test their skills."
-                       f"The app will feature the vulnerability {vuln}. Make the web page attractive, colorful, "
-                       f"with a narrative. Make it complex and extremely difficult. Do not add hints in the HTML."
+            "content": f"Create an engaging, difficult, and highly complex single web page for security professionals to have a safe environment"
+                       f" to test their skills. Create a page masquerading as a common target for attackers, like a bank,"
+                       f"marketplace, airport, etc."
+                       f"The app will feature the vulnerability {vuln}. Make the web page attractive, professional, "
+                       f"with a convincing cover story. include all the necessary python imports, as I will run python exec() on your"
+                       f"output"
         }
-    ],
-    temperature=1,
-    max_tokens=6000,
-    top_p=1,
-    frequency_penalty=0,
-    presence_penalty=0
+    ]
 )
+
+print(openai_response.choices[0].message.content)
 
 # Parse the generated vulnerable content
 openai_content = openai_response.choices[0].message.content
 openai_parsed_content = openai_content[openai_content.find('from flask'):openai_content.find('if __name__ == ')+50]
 
 # Request to generate the explanation and mitigation for the vulnerability
-openai_fix = openai.chat.completions.create(
-    model="gpt-4o",
+openai_fix = client.chat.completions.create(
+    model="o1-mini",
     messages=[
-        {
-            "role": "system",
-            "content": "You are a cybersecurity engineer genius by day who receives vulnerable static web apps written in python"
-                       "and returns the solution for exploiting the vulnerable static web apps, as well as the explanation"
-                       "for how to mitigate this vulnerability from the developer side. Your output is a well-structured markdown."
-        },
         {
             "role": "user",
             "content": f"The following is a vulnerable web app written in python. Please explain the exploitation, and "
                        f"suggest best practices for developers to avoid this mistake in the future: {openai_parsed_content}"
         }
-    ],
-    temperature=1,
-    max_tokens=6000,
-    top_p=1,
-    frequency_penalty=0,
-    presence_penalty=0
+    ]
 )
 
 # Parse the solution and mitigation content
@@ -80,7 +63,7 @@ print(openai_fix_content)
 # Use Regex to extract room name
 title_match = re.search(r'<title>(.*?)<\/title>', openai_parsed_content, re.IGNORECASE)
 if title_match:
-    room_name = title_match.group(1)
+    room_name = title_match.group(1).replace(':', ' ') if (':' in title_match.group(1)) else title_match.group(1)
 
 # Create a folder for each room and save the files
 def create_room_folder(room_number):
