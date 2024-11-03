@@ -28,7 +28,7 @@ openai_response = client.chat.completions.create(
             "role": "user",
             "content": f"Create an engaging, difficult, and highly complex single web page for security professionals to have a safe environment"
                        f" to test their skills. Create a page masquerading as a common target for attackers, like a bank,"
-                       f"marketplace, airport, etc."
+                       f"marketplace, airport, , government office, etc."
                        f"The app will feature the vulnerability {vuln}. Make the web page attractive, professional, "
                        f"with a convincing cover story. include all the necessary python imports, as I will run python exec() on your"
                        f"output"
@@ -62,6 +62,7 @@ print(openai_fix_content)
 
 # Use Regex to extract room name
 title_match = re.search(r'<title>(.*?)<\/title>', openai_parsed_content, re.IGNORECASE)
+room_name = ''
 if title_match:
     room_name = title_match.group(1).replace(':', ' ') if (':' in title_match.group(1)) else title_match.group(1)
 
