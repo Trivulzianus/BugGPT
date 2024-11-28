@@ -1,1 +1,0 @@
-It appears that the code for the vulnerable web application wasn't included in your message. Could you please provide the Python code for the web app? Once I have the code, I can help explain how the exploitation might work and suggest best practices to prevent such vulnerabilities in the future.

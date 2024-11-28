@@ -12,10 +12,19 @@ vulns = {0: 'sqli', 1: 'reflected xss', 2: 'easy ssrf', 3: 'easy idor', 4: 'easy
          15: 'difficult sqli', 16: 'difficult xss', 17: 'extremely hard ssrf', 18: 'extremely difficult idor', 19: 'xxe',
          20: 'extremely difficult sqli', 21: 'highly sanitized xss', 22: 'ssrf', 23: 'idor', 24: 'xxe'}
 
+targets = {0: 'Bank', 1: 'Government Website', 2: 'E-commerce website', 3: 'Educational institute',
+           4: 'Defense contractor', 5: 'Casino website', 6: 'Content sharing website', 7: 'Social network',
+           8: 'Online forum', 9: 'Booking website'}
+
 # Choose a random vulnerability
 random_vuln = randrange(25)
 vuln = vulns[random_vuln]
 print(f"Chosen Vulnerability: {vuln}")
+
+# Choose a random target
+random_target = randrange(10)
+target = targets[random_target]
+print(f'Chosen target: {target}')
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -27,8 +36,7 @@ openai_response = client.chat.completions.create(
         {
             "role": "user",
             "content": f"Create an engaging, difficult, and highly complex single web page for security professionals to have a safe environment"
-                       f" to test their skills. Create a page masquerading as a common target for attackers, like a bank,"
-                       f"marketplace, airport, , government office, etc."
+                       f" to test their skills. Create a page masquerading as a {target}."
                        f"The app will feature the vulnerability {vuln}. Make the web page attractive, professional, "
                        f"with a convincing cover story. include all the necessary python imports, as I will run python exec() on your"
                        f"output"
@@ -62,7 +70,6 @@ print(openai_fix_content)
 
 # Use Regex to extract room name
 title_match = re.search(r'<title>(.*?)<\/title>', openai_parsed_content, re.IGNORECASE)
-room_name = ''
 if title_match:
     room_name = title_match.group(1).replace(':', ' ') if (':' in title_match.group(1)) else title_match.group(1)
 
